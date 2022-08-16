@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="todo">
+        <h1
+          :class="{
+			 'regular':todoList.length===0,
+			 'red':getCompletedAmount<1&&todoList.length,
+			 'yellow':getCompletedAmount>=todoList.length/2&&getCompletedAmount!==todoList.length,
+			 'green':getCompletedAmount===todoList.length&&todoList.length,}"
+        >
+          Todo list
+        </h1>
+        <hr />
+        <input v-model="newTodoTitle" type="text" />
+        <span> <button @click="addTodo">Add todo</button></span>
+        <ul v-if="todoList.length" class="todo-list">
+          <li
+            @click.stop="removeTodo(item.id)"
+            v-for="(item,index) of todoList"
+            :key="item.id"
+            :class="[{'completed':item.completed },'todo-list__item']"
+          >
+            <input
+              :id="item.id"
+              @click.stop="changeCompleted(item)"
+              :checked="item.completed"
+              type="checkbox"
+            />
+            <p>
+              <label @click.stop :for="item.id"
+                >{{index+1+'. ' + item.title}}</label
+              >
+            </p>
+          </li>
+        </ul>
+        <p v-else>No todos</p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
